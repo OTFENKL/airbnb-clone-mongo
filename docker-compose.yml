@@ -3,7 +3,7 @@ version: "3.7"
 services:
   app:
     image: airbnb-mongo
-    container_name: airbnb-mongo
+    container_name: airbnb-mongo-app
     ports:
       - 8090:8090
   mongo:
