@@ -1,16 +1,12 @@
 package clone.airbnbmongo.common.config;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class TestDto implements Serializable {
+@Getter @ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED) @AllArgsConstructor
+public class TestDto {
 
     private String hello;
-
 }

@@ -1,20 +1,14 @@
 package clone.airbnbmongo.common.config;
 
-import org.springframework.stereotype.Component;
-import java.util.concurrent.CountDownLatch;
+import clone.airbnbmongo.accommodation.web.AccommodationRes;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class Receiver {
 
-    private CountDownLatch latch = new CountDownLatch(1);
-
-    public void receiveMessage(TestDto testDto) {
-        System.out.println("Received <" + testDto + ">");
-        latch.countDown();
+    @RabbitListener(queues = {"airbnb-clone"})
+    public void receiveMessage(AccommodationRes message) {
+        System.out.println("Received <" + message + ">");
     }
-
-    public CountDownLatch getLatch() {
-        return latch;
-    }
-
 }

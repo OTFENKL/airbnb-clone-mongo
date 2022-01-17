@@ -1,18 +1,28 @@
 package clone.airbnbmongo.common.config;
 
+import clone.airbnbmongo.accommodation.web.AccommodationRes;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.RabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.amqp.support.converter.DefaultClassMapper;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConversionException;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.autoconfigure.amqp.SimpleRabbitListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Configuration
@@ -49,9 +59,9 @@ public class RabbitMqConfig {
     }
 
     @Bean
-    public Jackson2JsonMessageConverter jsonMessageConverter() {
+    public MessageConverter jsonMessageConverter() {
         Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
-        converter.setAlwaysConvertToInferredType(true);
+        converter.setClassMapper(classMapper());
 
         return converter;
     }
@@ -62,42 +72,43 @@ public class RabbitMqConfig {
         container.setConnectionFactory(connectionFactory);
         container.setQueueNames(queueName);
         container.setMessageListener(adapter);
+
         return container;
     }
 
     @Bean
-    MessageListenerAdapter listenerAdapter(Receiver receiver) {
-        MessageListenerAdapter adapter = new MessageListenerAdapter(receiver, "receiveMessage");
-        adapter.setMessageConverter(new Jackson2JsonMessageConverter());
+    MessageListenerAdapter listenerAdapter() {
+        MessageListenerAdapter adapter = new MessageListenerAdapter();
+        adapter.setMessageConverter(jsonMessageConverter());
 
         return adapter;
     }
 
-//    @Bean(name = "rabbitListenerContainerFactory")
-//    SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory(SimpleRabbitListenerContainerFactoryConfigurer configurer, ConnectionFactory connectionFactory) {
-//        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
-//        configurer.configure(factory, connectionFactory);
-//
-//        factory.setAfterReceivePostProcessors(new MessagePostProcessor() {
-//            @Override
-//            public Message postProcessMessage(Message message) throws AmqpException {
-//                System.out.println("message = " + message);
-//
-//                String type = message.getMessageProperties().getHeader("type").toString();
-//                System.out.println("type = " + type);
-//
-//                if("clone.airbnbpg.common.TestDto".equalsIgnoreCase(type))  {
-//                    message.getMessageProperties().setHeader("__TypeId__", TestDto.class.getName());
-//                    System.out.println("changed type = " + message.getMessageProperties().getHeader("type"));
-//                    System.out.println("changed type = " + message.getMessageProperties().getHeader("__TypeId__"));
-//                }
-//
-//                return message;
-//            }
-//        });
-//
-//        return factory;
-//    }
+    @Bean
+    public SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory() {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setMessageConverter(jsonMessageConverter());
 
+        return factory;
+    }
+
+    @Bean
+    public DefaultClassMapper classMapper() {
+        Map<String, Class<?>> idClassMap = initIdClassMap(AccommodationRes.class);
+
+        DefaultClassMapper classMapper = new DefaultClassMapper();
+        classMapper.setIdClassMapping(idClassMap);
+
+        return classMapper;
+    }
+
+    private Map<String, Class<?>> initIdClassMap(Class ... classes) {
+        Map<String, Class<?>> result = new HashMap<>();
+        for (Class clazz : classes) {
+            result.put(clazz.getSimpleName(), clazz);
+        }
+
+        return result;
+    }
 }
 
