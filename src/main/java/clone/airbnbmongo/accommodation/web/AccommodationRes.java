@@ -1,14 +1,16 @@
 package clone.airbnbmongo.accommodation.web;
 
 import clone.airbnbmongo.accommodation.AccommodationType;
-import lombok.*;
+import com.rabbitmq.client.Address;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Data
 @NoArgsConstructor @AllArgsConstructor
-public class AccommodationRes implements Serializable {
+public class AccommodationRes {
 
     private Long id;
 
@@ -16,7 +18,7 @@ public class AccommodationRes implements Serializable {
 
     private String description;
 
-//    private Address address;
+    private Address address;
 
     private int personCount;
 
