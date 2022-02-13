@@ -21,6 +21,8 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    //lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -29,6 +31,10 @@ dependencies {
     //rabbitmq
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     testImplementation 'org.springframework.amqp:spring-rabbit-test'
+
+    //fixture monkey
+    testImplementation "com.navercorp.fixturemonkey:fixture-monkey-starter:0.3.1"
+    testImplementation "com.navercorp.fixturemonkey:fixture-monkey-jackson:0.3.1"
 }
 
 test {
