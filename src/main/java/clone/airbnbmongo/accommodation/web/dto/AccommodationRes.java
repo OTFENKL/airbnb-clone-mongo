@@ -2,7 +2,7 @@ package clone.airbnbmongo.accommodation.web.dto;
 
 import clone.airbnbmongo.accommodation.AccommodationType;
 import clone.airbnbmongo.accommodation.domain.Accommodation;
-import com.rabbitmq.client.Address;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +20,7 @@ public class AccommodationRes {
 
     private String description;
 
-    private Address address;
+    private String address;
 
     private int personCount;
 

@@ -13,7 +13,7 @@ public class AccommodationListener {
     private final AccommodationService accommodationService;
     private final QueueConverter queueConverter;
 
-    @RabbitListener(queues = "{airbnb-clone}")
+    @RabbitListener(queues = {"airbnb-clone"})
     public <T> void receiveAccommodation(String data)  {
         AccommodationRes accommodationRes = queueConverter.convert(data, AccommodationRes.class);
         accommodationService.createAccommodation(accommodationRes);

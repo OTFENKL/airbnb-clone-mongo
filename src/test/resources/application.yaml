@@ -1,17 +1,7 @@
 spring:
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: airbnb
-      username: mongoadmin
-      password: secret
-      authentication-database: mongoadmin
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
-
-server:
-  port: 8090
+  mongodb:
+    embedded:
+      version: 3.5.5
+      params:
+        UserName: mongoadmin
+        Password: secret

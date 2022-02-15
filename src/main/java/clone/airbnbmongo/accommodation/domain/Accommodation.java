@@ -3,14 +3,16 @@ package clone.airbnbmongo.accommodation.domain;
 import clone.airbnbmongo.accommodation.AccommodationType;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString
 @Getter
-@Document
+@Document(collection = "accommodation")
 public class Accommodation {
 
     @Id

@@ -1,7 +1,6 @@
 package clone.airbnbmongo.common.queue.dto;
 
 import clone.airbnbmongo.accommodation.AccommodationType;
-import com.rabbitmq.client.Address;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,7 @@ public class AccommodationRes {
 
     private String description;
 
-    private Address address;
+    private String address;
 
     private int personCount;
 
