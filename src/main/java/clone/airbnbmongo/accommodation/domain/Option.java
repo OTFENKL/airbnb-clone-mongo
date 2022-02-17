@@ -1,14 +1,18 @@
 package clone.airbnbmongo.accommodation.domain;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Document
+import java.util.List;
+import java.util.Map;
+
+@Getter
+@NoArgsConstructor
 public class Option {
 
-    @Id
-    private Long id;
+    private Map<String, List<String>> optionDetails;
 
-    private String description;
-
+    public Option(Map<String, List<String>> optionDetails) {
+        this.optionDetails = optionDetails;
+    }
 }

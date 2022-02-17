@@ -1,18 +1,17 @@
-package clone.airbnbmongo.accommodation.web.dto;
+package clone.airbnbmongo.common.queue.dto;
 
 import clone.airbnbmongo.accommodation.AccommodationType;
 import clone.airbnbmongo.accommodation.domain.Accommodation;
-
+import com.rabbitmq.client.Address;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data @Builder
+@Data
 @NoArgsConstructor @AllArgsConstructor
-public class AccommodationRes {
+public class AccommodationQueueRes {
 
     private Long id;
 
@@ -20,7 +19,7 @@ public class AccommodationRes {
 
     private String description;
 
-    private String address;
+    private Address address;
 
     private int personCount;
 
@@ -30,32 +29,16 @@ public class AccommodationRes {
 
     private AccommodationType type;
 
+    // TODO 위치 정보 필드 추가
     private double rating;
 
     private int reviewCount;
 
-    private OptionRes option;
+    private OptionQueueRes option;
 
     private String latitude;
 
     private String longitude;
-
-    public static AccommodationRes of(Accommodation accommodation) {
-        return AccommodationRes.builder()
-                .id(accommodation.getId())
-                .name(accommodation.getName())
-                .description(accommodation.getDescription())
-                .personCount(accommodation.getPersonCount())
-                .imagePath(accommodation.getImagePath())
-                .basicPrice(accommodation.getBasicPrice())
-                .type(accommodation.getType())
-                .rating(accommodation.getRating())
-                .reviewCount(accommodation.getReviewCount())
-                .option(OptionRes.of(accommodation.getOption()))
-                .latitude(accommodation.getLatitude())
-                .longitude(accommodation.getLongitude())
-                .build();
-    }
 
     public Accommodation toEntity() {
         return Accommodation.builder()
@@ -68,7 +51,7 @@ public class AccommodationRes {
                 .type(this.type)
                 .rating(this.rating)
                 .reviewCount(this.reviewCount)
-//                .options(this.options)
+                .option(this.option.toEntity())
                 .latitude(this.latitude)
                 .longitude(this.longitude)
                 .build();

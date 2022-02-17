@@ -7,7 +7,6 @@ import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @ToString
@@ -36,14 +35,14 @@ public class Accommodation {
 
     private int reviewCount;
 
-    private List<Option> options = new ArrayList<>();
+    private Option option;
 
     private String latitude;
 
     private String longitude;
 
     @Builder
-    public Accommodation(Long id, String name, String description, String address, int personCount, List<String> imagePath, long basicPrice, AccommodationType type, double rating, int reviewCount, List<Option> options, String latitude, String longitude) {
+    public Accommodation(Long id, String name, String description, String address, int personCount, List<String> imagePath, long basicPrice, AccommodationType type, double rating, int reviewCount, Option option, String latitude, String longitude) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -54,7 +53,7 @@ public class Accommodation {
         this.type = type;
         this.rating = rating;
         this.reviewCount = reviewCount;
-        this.options = options;
+        this.option = option;
         this.latitude = latitude;
         this.longitude = longitude;
     }
