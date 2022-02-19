@@ -85,6 +85,9 @@ class AccommodationReaderTest {
                 option.put("category" + i, Arrays.asList("option1", "option2", "option3"));
             }
 
+//            Option optionInstnace = Option.getInstnace();
+//            optionInstnace.setOptionDetails(option);
+
             Accommodation accommodation = Accommodation.builder()
                     .id((long) i)
                     .name("testName" + i)
