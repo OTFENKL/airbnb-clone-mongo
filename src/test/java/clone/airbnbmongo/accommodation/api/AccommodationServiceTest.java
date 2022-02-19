@@ -5,11 +5,17 @@ import clone.airbnbmongo.accommodation.domain.Accommodation;
 import clone.airbnbmongo.accommodation.domain.Option;
 import clone.airbnbmongo.accommodation.domain.repository.AccommodationRepository;
 import clone.airbnbmongo.accommodation.web.dto.AccommodationListRes;
+import clone.airbnbmongo.accommodation.web.dto.AccommodationRes;
+import clone.airbnbmongo.common.BaseTest;
 import clone.airbnbmongo.common.FixProperty;
 import clone.airbnbmongo.common.accommodation.BaseAccommodationTest;
 import clone.airbnbmongo.common.queue.dto.AccommodationQueueRes;
+import clone.airbnbmongo.common.queue.dto.OptionQueueRes;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
@@ -18,30 +24,43 @@ import java.util.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-class AccommodationServiceTest extends BaseAccommodationTest {
+@ExtendWith(MockitoExtension.class)
+class AccommodationServiceTest extends BaseTest {
 
     @Mock
-    AccommodationRepository accommodationRepository;
+    AccommodationReader ar;
+
+    @Mock
+    AccommodationWriter aw;
 
     @Test
     void loadAccommodation() {
+        //given
+        int size = 5;
+        long id = 1L;
+        List<Accommodation> accommodations = createAccommodations(size);
 
+        when(ar.findById(id)).thenReturn(accommodations.get(0));
+        AccommodationService as = createAccommodationService();
+
+        //when
+        AccommodationRes result = as.loadAccommodation(id);
+
+        //then
+        assertThat(result.getId()).isEqualTo(id);
     }
 
     @Test
     void loadAccommodations() {
         //given
         String addressParam = "test";
-        PageRequest page = PageRequest.of(0, 5);
         int size = 5;
+        PageRequest page = PageRequest.of(0, size);
 
         List<Accommodation> accommodations = createAccommodations(size);
 
-        AccommodationReader ar = new AccommodationReader(accommodationRepository);
-        AccommodationWriter aw = new AccommodationWriter(accommodationRepository);
-        
         when(ar.findPageByAddressContains(addressParam, page)).thenReturn(new PageImpl<>(accommodations));
-        AccommodationService as = new AccommodationService(aw, ar);
+        AccommodationService as = createAccommodationService();
 
         //when
         AccommodationListRes res = as.loadAccommodations(addressParam, page);
@@ -53,23 +72,26 @@ class AccommodationServiceTest extends BaseAccommodationTest {
 
     @Test
     void createAccommodation()   {
+        //given
         AccommodationQueueRes accommodationQueueRes = createInstanceWithFixProperty(AccommodationQueueRes.class, FixProperty.of("id", 1L));
-        Accommodation accommodation = accommodationQueueRes.toEntity();
+        when(aw.save(accommodationQueueRes.toEntity())).thenReturn(accommodationQueueRes.toEntity());
+        AccommodationService as = createAccommodationService();
 
-        accommodationService.createAccommodation(accommodationQueueRes);
-        Accommodation findAccommodation = accommodationRepository.findById(accommodation.getId()).get();
+        //when
+        AccommodationRes result = as.createAccommodation(accommodationQueueRes);
 
-        assertThat(accommodation.getAddress()).isEqualTo(findAccommodation.getAddress());
-        assertThat(accommodation.getBasicPrice()).isEqualTo(findAccommodation.getBasicPrice());
-        assertThat(accommodation.getLatitude()).isEqualTo(findAccommodation.getLatitude());
-        assertThat(accommodation.getImagePath().size()).isEqualTo(findAccommodation.getImagePath().size());
-        assertThat(accommodation.getLongitude()).isEqualTo(findAccommodation.getLongitude());
-        assertThat(accommodation.getName()).isEqualTo(findAccommodation.getName());
-        assertThat(accommodation.getPersonCount()).isEqualTo(findAccommodation.getPersonCount());
-        assertThat(accommodation.getRating()).isEqualTo(findAccommodation.getRating());
-        assertThat(accommodation.getReviewCount()).isEqualTo(findAccommodation.getReviewCount());
-        assertThat(accommodation.getType()).isEqualTo(findAccommodation.getType());
-        assertThat(accommodation.getDescription()).isEqualTo(findAccommodation.getDescription());
+        //then
+        assertThat(result.getAddress()).isEqualTo(accommodationQueueRes.getAddress());
+        assertThat(result.getBasicPrice()).isEqualTo(accommodationQueueRes.getBasicPrice());
+        assertThat(result.getLatitude()).isEqualTo(accommodationQueueRes.getLatitude());
+        assertThat(result.getImagePath().size()).isEqualTo(accommodationQueueRes.getImagePath().size());
+        assertThat(result.getLongitude()).isEqualTo(accommodationQueueRes.getLongitude());
+        assertThat(result.getName()).isEqualTo(accommodationQueueRes.getName());
+        assertThat(result.getPersonCount()).isEqualTo(accommodationQueueRes.getPersonCount());
+        assertThat(result.getRating()).isEqualTo(accommodationQueueRes.getRating());
+        assertThat(result.getReviewCount()).isEqualTo(accommodationQueueRes.getReviewCount());
+        assertThat(result.getType()).isEqualTo(accommodationQueueRes.getType());
+        assertThat(result.getDescription()).isEqualTo(accommodationQueueRes.getDescription());
     }
 
     private List<Accommodation> createAccommodations(int size) {
@@ -102,5 +124,26 @@ class AccommodationServiceTest extends BaseAccommodationTest {
         }
 
         return accommodations;
+    }
+
+    private AccommodationService createAccommodationService() {
+        return new AccommodationService(aw, ar);
+    }
+
+    private AccommodationQueueRes createAccommodationQueueRes() {
+        return AccommodationQueueRes.builder()
+                .id(1L)
+                .name()
+        .description()
+        .address()
+        .personCount()
+        .imagePath()
+        .basicPrice()
+        .type()
+        .rating()
+        .reviewCount()
+        .option()
+        .latitude()
+        .longitude();
     }
 }
