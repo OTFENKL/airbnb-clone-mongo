@@ -48,6 +48,7 @@ public class AccommodationRes {
                 .personCount(accommodation.getPersonCount())
                 .imagePath(accommodation.getImagePath())
                 .basicPrice(accommodation.getBasicPrice())
+                .address(accommodation.getAddress())
                 .type(accommodation.getType())
                 .rating(accommodation.getRating())
                 .reviewCount(accommodation.getReviewCount())

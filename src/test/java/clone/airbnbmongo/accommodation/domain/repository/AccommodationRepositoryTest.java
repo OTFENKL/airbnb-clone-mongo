@@ -1,26 +1,22 @@
 package clone.airbnbmongo.accommodation.domain.repository;
 
 import clone.airbnbmongo.accommodation.domain.Accommodation;
-import clone.airbnbmongo.common.BaseTest;
 import clone.airbnbmongo.common.FixProperty;
-import com.navercorp.fixturemonkey.FixtureMonkey;
-import com.navercorp.fixturemonkey.generator.BuilderArbitraryGenerator;
-import org.assertj.core.api.Assertions;
+import clone.airbnbmongo.common.accommodation.BaseAccommodationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.annotation.Commit;
 
-import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@TestPropertySource(properties = "spring.mongodb.embedded.version=3.5.5")
-public class AccommodationRepositoryTest extends BaseTest {
+@Commit
+public class AccommodationRepositoryTest extends BaseAccommodationTest {
 
     @Autowired
     private AccommodationRepository accommodationRepository;
@@ -31,7 +27,7 @@ public class AccommodationRepositoryTest extends BaseTest {
 
         LongStream.rangeClosed(1, 100)
                 .forEach(i -> {
-                    Accommodation actual = createInstanceWithFixProperties(Accommodation.class, new FixProperty("id", i), new FixProperty("address", address + i));
+                    Accommodation actual = createInstanceWithFixProperties(Accommodation.class, FixProperty.of("id", i), FixProperty.of("address", address + i));
                     accommodationRepository.save(actual);
                 });
 
