@@ -2,24 +2,15 @@ package clone.airbnbmongo.accommodation.api;
 
 import clone.airbnbmongo.accommodation.domain.Accommodation;
 import clone.airbnbmongo.accommodation.domain.repository.AccommodationRepository;
-import clone.airbnbmongo.accommodation.web.dto.AccommodationRes;
 import clone.airbnbmongo.common.BaseTest;
 import clone.airbnbmongo.common.FixProperty;
+import clone.airbnbmongo.common.queue.dto.AccommodationQueueRes;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.stream.IntStream;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -36,10 +27,11 @@ class AccommodationServiceTest extends BaseTest {
 
     @Test
     public void createAccommodation()   {
-        AccommodationRes accommodationRes = createInstanceWithFixProperty(AccommodationRes.class, new FixProperty("id", 1L));
-        Accommodation accommodation = accommodationRes.toEntity();
+        AccommodationQueueRes accommodationQueueRes = createInstanceWithFixProperty(AccommodationQueueRes.class, new FixProperty("id", 1L));
+        System.out.println(accommodationQueueRes);
+        Accommodation accommodation = accommodationQueueRes.toEntity();
 
-        accommodationService.createAccommodation(accommodationRes);
+        accommodationService.createAccommodation(accommodationQueueRes);
         Accommodation findAccommodation = accommodationRepository.findById(accommodation.getId()).get();
 
         assertThat(accommodation.getAddress()).isEqualTo(findAccommodation.getAddress());

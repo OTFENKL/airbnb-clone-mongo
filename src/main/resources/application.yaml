@@ -6,6 +6,7 @@ spring:
       database: airbnb
       username: mongoadmin
       password: secret
+      authentication-database: admin
   rabbitmq:
     host: localhost
     port: 5672

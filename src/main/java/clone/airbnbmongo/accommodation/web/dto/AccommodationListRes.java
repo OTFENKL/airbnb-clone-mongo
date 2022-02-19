@@ -1,12 +1,16 @@
 package clone.airbnbmongo.accommodation.web.dto;
 
+import clone.airbnbmongo.accommodation.domain.Accommodation;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Data
+@Data @Builder
 @NoArgsConstructor @AllArgsConstructor
 public class AccommodationListRes {
 
@@ -16,6 +20,18 @@ public class AccommodationListRes {
 
     private int pageSize;
 
-    private int totalCount;
+    private long totalCount;
 
+    public static AccommodationListRes of(Page<Accommodation> accommodationPage) {
+        List<AccommodationRes> accommodationResList = accommodationPage.getContent().stream()
+                .map(AccommodationRes::of)
+                .collect(Collectors.toList());
+
+        return AccommodationListRes.builder()
+                .accommodationResList(accommodationResList)
+                .pageNumber(accommodationPage.getNumber())
+                .pageSize(accommodationPage.getSize())
+                .totalCount(accommodationPage.getTotalElements())
+                .build();
+    }
 }

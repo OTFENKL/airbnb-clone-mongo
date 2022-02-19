@@ -33,7 +33,7 @@ public class AccommodationRes {
 
     private int reviewCount;
 
-    private List<OptionRes> options = new ArrayList<>();
+    private OptionQueueRes option;
 
     private String latitude;
 

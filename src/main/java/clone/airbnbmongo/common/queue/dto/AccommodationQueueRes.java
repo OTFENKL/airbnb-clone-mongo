@@ -2,14 +2,14 @@ package clone.airbnbmongo.common.queue.dto;
 
 import clone.airbnbmongo.accommodation.AccommodationType;
 import clone.airbnbmongo.accommodation.domain.Accommodation;
-import com.rabbitmq.client.Address;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data
+@Data @Builder
 @NoArgsConstructor @AllArgsConstructor
 public class AccommodationQueueRes {
 
@@ -19,7 +19,7 @@ public class AccommodationQueueRes {
 
     private String description;
 
-    private Address address;
+    private String address;
 
     private int personCount;
 
@@ -49,6 +49,7 @@ public class AccommodationQueueRes {
                 .imagePath(this.imagePath)
                 .basicPrice(this.basicPrice)
                 .type(this.type)
+                .address(address)
                 .rating(this.rating)
                 .reviewCount(this.reviewCount)
                 .option(this.option.toEntity())
