@@ -3,6 +3,7 @@ package clone.airbnbmongo.accommodation.domain.repository;
 import clone.airbnbmongo.accommodation.domain.Accommodation;
 import clone.airbnbmongo.common.FixProperty;
 import clone.airbnbmongo.common.accommodation.BaseAccommodationTest;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +23,7 @@ public class AccommodationRepositoryTest extends BaseAccommodationTest {
     private AccommodationRepository accommodationRepository;
 
     @Test
+    @Disabled
     void findByAddressContaining() {
         String address = "Seoul";
 
