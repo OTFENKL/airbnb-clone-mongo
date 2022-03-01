@@ -47,7 +47,7 @@ jobs:
       
     - name: Run AWS CodeDeploy
       run: |
-        aws deploy create-deployment -—application-name airbnb-mongo \
-             -—deployment-config-name CodeDeployDefault.OneAtATime \
-             —-deployment-group-name develop \
-             —-s3-location bucket=airbnb-mongo,bundleType=zip,key=airbnb-mongo/$GITHUB_SHA.zip
+        aws deploy create-deployment --application-name airbnb-mongo \
+             --deployment-config-name CodeDeployDefault.OneAtATime \
+             --deployment-group-name develop \
+             --s3-location bucket=airbnb-mongo,bundleType=zip,key=airbnb-mongo/$GITHUB_SHA.zip
