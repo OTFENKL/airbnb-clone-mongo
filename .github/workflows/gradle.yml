@@ -50,4 +50,4 @@ jobs:
         aws deploy create-deployment --application-name airbnb-mongo \
              --deployment-config-name CodeDeployDefault.OneAtATime \
              --deployment-group-name develop \
-             --s3-location bucket=airbnb-mongo,bundleType=zip,key=airbnb-mongo/$GITHUB_SHA.zip
+             --s3-location bucket=airbnb-mongo,bundleType=zip,key=$GITHUB_SHA.zip
