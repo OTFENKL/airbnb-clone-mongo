@@ -12,6 +12,6 @@ permissions:
     mode: 755
 hooks:
   AfterInstall:
-    - location: /home/ec2-user/app/scripts/deploy.sh
+    - location: scripts/deploy.sh
       timeout: 120
       runas: root
