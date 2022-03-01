@@ -23,8 +23,31 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+
     - name: Build with Gradle
       run: ./gradlew build
+      
+    - name: Make zip file
+      run: zip -qq -r ./$GITHUB_SHA.zip .
+      shell: bash  
 
+    - name: Set up AWS
+      uses: aws-actions/configure-aws-credentials@v1
+      with: 
+        aws-access-key-id: ${{ secrets.MONGO_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.MONGO_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2
+
+    - name: Upload to AWS S3
+      run: |
+        aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://airbnb-mongo/$GITHUB_SHA.zip
+      
+    - name: Run AWS CodeDeploy
+      run: |
+        aws deploy create-deployment --application-name airbnb-mongo \
+             --deployment-config-name CodeDeployDefault.OneAtATime \
+             --deployment-group-name develop \
+             --s3-location bucket=airbnb-mongo,bundleType=zip,key=$GITHUB_SHA.zip
