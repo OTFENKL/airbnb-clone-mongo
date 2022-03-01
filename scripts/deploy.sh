@@ -13,8 +13,8 @@ then
   echo "> 종료할것 없음."
 else
   echo "> kill -9 $CURRENT_PID"
-  source ./stop.sh
+  sh ./stop.sh
 fi
 
 echo "> $JAR_FILE 배포"
-source ./start.sh
+sh ./start.sh
