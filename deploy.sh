@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-REPOSITORY=/opt/airbnb-mongo
+REPOSITORY=/home/ec2-user/app/airbnb-mongo
 cd $REPOSITORY
 
 APP_NAME=airbnb-mongo
