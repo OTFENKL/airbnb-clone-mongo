@@ -9,7 +9,7 @@ if [ -z $CURRENT_PID ]
 then
   echo "> 종료할 APP이 없습니다."
 else
-  $APP_DIR/stop.sh
+  source $APP_DIR/stop.sh
 fi
 
-$APP_DIR/start.sh
+source $APP_DIR/start.sh
