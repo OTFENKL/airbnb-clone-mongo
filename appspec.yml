@@ -2,8 +2,10 @@ version: 0.0
 os: linux
 
 files:
-  - source: /
-    destination: /home/ec2-user/app/airbnb-mongo
+  - source: /build/libs
+    destination: /home/ec2-user/app/airbnb-mongo/archive-jar
+  - source: /scripts
+    destination: /home/ec2-user/app/airbnb-mongo/archive-jar
 permissions:
   - object: /home/ec2-user
     pattern: '**'
@@ -13,5 +15,5 @@ permissions:
 hooks:
   AfterInstall:
     - location: scripts/deploy.sh
-      timeout: 120
+      timeout: 180
       runas: root
