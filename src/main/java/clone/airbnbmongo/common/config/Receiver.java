@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class Receiver {
 
-    @RabbitListener(queues = {"airbnb-clone"})
+//    @RabbitListener(queues = {"airbnb-clone"})
     public void receiveMessage(String message) {
         System.out.println("Received <" + message + ">");
     }

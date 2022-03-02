@@ -7,10 +7,10 @@ spring:
       username: mongoadmin
       password: secret
       authentication-database: admin
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: guest
+#    password: guest
 server:
   port: 8090
