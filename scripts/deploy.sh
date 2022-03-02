@@ -2,7 +2,7 @@
 
 APP_DIR=/home/ec2-user/app/airbnb-mongo/archive-jar
 
-APP_NAME=$(ls APP_DIR | grep .jar)
+APP_NAME=$(ls $APP_DIR | grep .jar)
 CURRENT_PID=$(pgrep -f $APP_NAME)
 
 if [ -z $CURRENT_PID ]
