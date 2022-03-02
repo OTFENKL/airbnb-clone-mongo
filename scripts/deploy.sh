@@ -9,7 +9,10 @@ if [ -z $CURRENT_PID ]
 then
   echo "> 종료할 APP이 없습니다."
 else
-  source $APP_DIR/stop.sh
+  echo "> kill -15 $CURRENT_PID"
+  kill -15 $CURRENT_PID
+  echo "> $CURRENT_PID 삭제 완료"
 fi
 
-source $APP_DIR/start.sh
+echo "> $APP_NAME 배포"
+nohup java -jar $APP_DIR/$APP_NAME > /dev/null 2> /dev/null < /dev/null &
