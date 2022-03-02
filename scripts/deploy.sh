@@ -1,6 +1,8 @@
 #!/bin/bash
 
 REPOSITORY=/home/ec2-user/app/airbnb-mongo
+SCRIPT_DIR=$(dirs)
+
 cd $REPOSITORY
 
 JAR_NAME=$(ls $REPOSITORY/build/libs/ | grep '.jar' | tail -n 1)
@@ -13,8 +15,8 @@ then
   echo "> 종료할것 없음."
 else
   echo "> kill -9 $CURRENT_PID"
-  ./stop.sh
+  $SCRIPT_DIR/stop.sh
 fi
 
 echo "> $JAR_FILE 배포"
-sh ./start.sh
+$SCRIPT_DIR/start.sh
