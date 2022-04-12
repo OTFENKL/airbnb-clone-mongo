@@ -7,6 +7,7 @@ import clone.airbnbmongo.accommodation.web.dto.AccommodationListRes;
 import clone.airbnbmongo.accommodation.web.dto.AccommodationRes;
 import clone.airbnbmongo.common.BaseTest;
 import clone.airbnbmongo.common.queue.dto.AccommodationQueueRes;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -69,6 +70,7 @@ class AccommodationServiceTest extends BaseTest {
     }
 
     @Test
+    @Disabled
     void createAccommodation()   {
         //given
         AccommodationQueueRes accQueueRes = mock(AccommodationQueueRes.class);
